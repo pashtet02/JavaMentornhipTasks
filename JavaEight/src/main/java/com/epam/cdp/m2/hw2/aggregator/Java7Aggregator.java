@@ -59,11 +59,4 @@ public class Java7Aggregator implements Aggregator {
         });
         return duplicates;
     }
-
-    public static void main(String[] args) {
-        ArrayList<String> list = null;
-        for (String str: list) {
-            str.toUpperCase(Locale.ROOT);
-        }
-    }
 }

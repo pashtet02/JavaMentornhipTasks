@@ -37,10 +37,9 @@ explain analyze select * from student where phone_number > 8800555350;
 
 --Find user with marks by user surname (partial match)
 ------------------------------------------------------
---without index -> 67 ms
---hash -> 70.7
---btree -> 77
---gin -> 71 ms
+--btree 1061.302 (Khoda%) with (Khodachok) -> 1086.784 ms
+--hash 1057 (Khoda%) with (Khodachok) -> 1054.784 ms
+--without 1055 (Khoda%) with (Khodachok) -> 1071.784 ms
 DROP INDEX IF EXISTS student_surname_idx;
 CREATE INDEX student_surname_idx ON student USING gin(surname);
 explain analyze select s.name, s.surname, s.country, er.mark from student s
