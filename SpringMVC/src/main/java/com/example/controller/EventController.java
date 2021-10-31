@@ -39,6 +39,7 @@ public class EventController {
                       @RequestParam Double price) {
         Event event = new Event(name, details, price, location);
         eventService.save(event);
+        log.info("Event {} saved successfully", event);
         return "redirect:/events";
     }
 }

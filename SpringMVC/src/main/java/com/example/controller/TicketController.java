@@ -44,7 +44,6 @@ public class TicketController {
         log.info("Ticket get mapping on the page ticket info");
         Ticket ticketInfo = bookingFacade.getDetailedTicketInfo(eventId);
         model.addAttribute("ticket", ticketInfo);
-        System.out.println("USERNAME: " + session.getAttribute("username"));
         return "ticketInfo";
     }
 
@@ -91,7 +90,6 @@ public class TicketController {
         converterProperties.setBaseUri("http://localhost:8080");
 
         HtmlConverter.convertToPdf(content, target, converterProperties);
-
         byte[] bytes = target.toByteArray();
 
         return ResponseEntity.ok()
