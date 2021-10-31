@@ -1,16 +1,16 @@
 package com.example.facade;
 
-import com.example.model.Event;
 import com.example.model.Ticket;
 import com.example.model.User;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BookingFacade {
 
-    List<Ticket> getBookedTickets(User user, int pageSize, int pageNum);
+    Page<Ticket> getBookedTickets(User user, Pageable pageable);
 
     Ticket buyTicket(String username, long eventId);
 
     Ticket getDetailedTicketInfo(long eventId);
+
 }

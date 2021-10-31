@@ -8,14 +8,21 @@ import com.example.model.User;
 import com.example.service.EventService;
 import com.example.service.TicketService;
 import com.example.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.List;
 
 @Service
+@Slf4j
 public class BookingFacadeImpl implements BookingFacade {
+
+    @Value("${preload.path}")
+    private String preloadPath;
 
     private final EventService eventService;
     private final UserService userService;
@@ -27,10 +34,9 @@ public class BookingFacadeImpl implements BookingFacade {
         this.ticketService = ticketService;
     }
 
-
     @Override
-    public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
-        return null;
+    public Page<Ticket> getBookedTickets(User user, Pageable pageable) {
+        return ticketService.getTicketsByUserId(user.getId(), pageable);
     }
 
     @Override
@@ -54,4 +60,27 @@ public class BookingFacadeImpl implements BookingFacade {
         ticket.setEvent(event);
         return ticket;
     }
+
+    /*@SneakyThrows
+    @Override
+    public List<Ticket> preloadTickets() {
+
+        FileReader reader = new FileReader(preloadPath);
+
+        XStream xstream = new XStream();
+        xstream.processAnnotations(TicketXml.class);
+        xstream.addPermission(AnyTypePermission.ANY);
+        TicketXml data = (TicketXml) xstream.fromXML(reader);
+        EventMessageType event = unmarshaller.unmarshal(new StreamResource(file), EventMessagType.class).getValue();
+        System.out.println(data);
+
+        *//*ickets tickets;
+        try (FileInputStream is = new FileInputStream(preloadPath)) {
+            tickets = (Tickets) new XStreamMarshaller().unmarshal(new StreamSource(is));
+            System.out.println("TICKETS: " + tickets);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*//*
+        return new ArrayList<>();
+    }*/
 }

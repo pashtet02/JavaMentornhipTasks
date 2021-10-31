@@ -1,6 +1,8 @@
 package com.example.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -13,7 +15,7 @@ import java.util.Objects;
 @ToString
 public class Event {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     public Event(String name, String details, double price, String location) {
