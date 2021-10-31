@@ -1,5 +1,6 @@
 package com.example.model;
 
+import com.example.model.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.example.service;
 
 import com.example.ecxeption.UserAlreadyExistsException;
-import com.example.model.Role;
+import com.example.model.enums.Role;
 import com.example.model.User;
 import com.example.repos.UserRepo;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
 package com.example.config;
 
+import com.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +18,12 @@ import java.security.Principal;
 @Slf4j
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
+    private final UserService userService;
+
+    public AuthenticationSuccessHandlerImpl(UserService userService) {
+        this.userService = userService;
+    }
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -30,6 +37,8 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         log.info("userName: " + userName);
         HttpSession session = request.getSession();
         session.setAttribute("username", userName);
+        com.example.model.User user = userService.getUserByUsername(userName);
+        session.setAttribute("user", user);
         request.getRequestDispatcher("/events").forward(request, response);
     }
 }
