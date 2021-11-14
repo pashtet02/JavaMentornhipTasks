@@ -6,15 +6,13 @@ import com.cpd.springcore.model.User;
 import com.cpd.springcore.xml.TicketList;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 
 
 @Configuration
 @PropertySource("classpath:application.properties")
 @ComponentScan("com.cpd.springcore")
+@EnableAspectJAutoProxy
 public class AppConfig {
 
     @Bean

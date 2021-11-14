@@ -1,5 +1,6 @@
 package com.cpd.springcore.facade.impl;
 
+import com.cpd.springcore.aspect.Loggable;
 import com.cpd.springcore.facade.BookingFacade;
 import com.cpd.springcore.model.Event;
 import com.cpd.springcore.model.Ticket;
@@ -10,7 +11,6 @@ import com.cpd.springcore.service.UserService;
 import com.cpd.springcore.xml.TicketList;
 import com.thoughtworks.xstream.XStream;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class BookingFacadeImpl implements BookingFacade {
     @Value("${datafile.path}")
@@ -35,102 +34,105 @@ public class BookingFacadeImpl implements BookingFacade {
     private final XStream xStream;
 
     @PostConstruct
+    @Loggable
     public void loadTicketsFromXml() {
         String xmlContent = null;
         try {
             xmlContent = new String(Files.readAllBytes(Paths.get(datafilePath)));
         } catch (IOException e) {
-            log.error("Unable to load tickets from {}. Message: {}", datafilePath, e.getMessage());
+            e.printStackTrace();
         }
         TicketList tickets = (TicketList) xStream.fromXML(xmlContent);
         tickets.getTickets().forEach(t -> bookTicket(t.getUserId(), t.getEventId(), t.getPlace(), t.getCategory()));
     }
 
     @Override
+    @Loggable
     public Event getEventById(long eventId) {
-
         return eventService.getEventById(eventId);
     }
 
     @Override
+    @Loggable
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {
         return eventService.getEventByTitle(title, pageSize, pageNum);
     }
 
     @Override
+    @Loggable
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
         return eventService.getEventForDay(day, pageSize, pageNum);
     }
 
     @Override
+    @Loggable
     public Event createEvent(Event event) {
-        log.info("Create event {}", event);
         return eventService.save(event);
     }
 
     @Override
+    @Loggable
     public Event updateEvent(Event event) {
-        log.info("Update event {}", event);
         return eventService.save(event);
     }
 
     @Override
+    @Loggable
     public boolean deleteEvent(long eventId) {
-        log.info("Delete event by id {}", eventId);
         return eventService.delete(eventId);
     }
 
     @Override
+    @Loggable
     public User getUserById(long userId) {
-        log.info("Get user by id {}", userId);
         return userService.getUserById(userId);
     }
 
     @Override
+    @Loggable
     public User getUserByEmail(String email) {
-        log.info("Get user by email {}", email);
         return userService.getUserByEmail(email);
     }
 
     @Override
+    @Loggable
     public List<User> getUsersByName(String name, int pageSize, int pageNum) {
-        log.info("Get users by name {} limit {}, {}", name, pageNum, pageSize);
         return userService.getUsersByName(name, pageSize, pageSize);
     }
 
     @Override
+    @Loggable
     public User createUser(User user) {
-        log.info("Created user {}", user);
         return userService.save(user);
     }
 
     @Override
+    @Loggable
     public User updateUser(User user) {
-        log.info("Update user {}", user);
         return userService.save(user);
     }
 
     @Override
+    @Loggable
     public boolean deleteUser(long userId) {
         userService.delete(userId);
-        log.info("Deleted user with id {}", userId);
         return true;
     }
 
     @Override
+    @Loggable
     public Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category) {
         Ticket ticket = new Ticket();
         ticket.setCategory(category);
         ticket.setEventId(eventId);
         ticket.setPlace(place);
         ticket.setUserId(userId);
-        log.info("Book ticket {}", ticket);
         return ticketService.bookTicket(ticket);
     }
 
     @Override
+    @Loggable
     public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
-        log.info("getBookedTickets() with user: {}", user);
         Objects.requireNonNull(user, "User cannot be null.");
 
         //Check that such user exists in DB
@@ -140,8 +142,8 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
+    @Loggable
     public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) {
-        log.info("getBookedTickets() with event: {}", event);
         Objects.requireNonNull(event, "Event cannot be null.");
 
         //Check that such event exists in DB
@@ -151,8 +153,8 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
+    @Loggable
     public boolean cancelTicket(long ticketId) {
-        log.info("cancelTicket() with ticketId: {}", ticketId);
         return ticketService.deleteTicket(ticketId);
     }
 }

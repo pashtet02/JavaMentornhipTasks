@@ -13,7 +13,7 @@ import java.util.List;
 public class TicketList {
 
     @XStreamImplicit(itemFieldName = "ticket")
-    private List<Ticket> tickets;
+    private final List<Ticket> tickets;
 
     public TicketList() {
         this.tickets = new ArrayList<>();
