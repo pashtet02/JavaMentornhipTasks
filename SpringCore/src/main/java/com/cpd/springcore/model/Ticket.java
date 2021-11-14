@@ -1,58 +1,65 @@
-package model.impl;
+package com.cpd.springcore.model;
 
-public class Ticket implements model.Ticket {
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import javax.persistence.*;
+
+@XStreamAlias("ticket")
+@Entity
+@Table(name = "ticket")
+public class Ticket {
+    public Ticket() {
+
+    }
+
+    @XStreamAlias("category")
+    public enum Category {
+        BAR, PREMIUM;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "event_id")
     private long eventId;
+    @Column(name = "user_id")
     private long userId;
     private int place;
+
     private Category category;
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
     public long getEventId() {
         return eventId;
     }
 
-    @Override
     public void setEventId(long eventId) {
         this.eventId = eventId;
     }
 
-    @Override
     public long getUserId() {
         return userId;
     }
 
-    @Override
     public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    @Override
     public Category getCategory() {
         return category;
     }
 
-    @Override
     public void setCategory(Category category) {
         this.category = category;
     }
 
-    @Override
     public int getPlace() {
         return place;
     }
 
-    @Override
     public void setPlace(int place) {
         this.place = place;
     }

@@ -1,36 +1,35 @@
-package model.impl;
+package com.cpd.springcore.model;
 
-public class User implements model.User {
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
+@XStreamAlias("user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     private String email;
 
-    @Override
     public long getId() {
         return id;
     }
 
-    @Override
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public String getEmail() {
         return email;
     }
 
-    @Override
     public void setEmail(String email) {
         this.email = email;
     }
