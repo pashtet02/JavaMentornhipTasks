@@ -30,7 +30,7 @@ public class TicketService {
 
     public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
         Objects.requireNonNull(user, "Cannot be null");
-        return ticketRepo.findAllByUserIdOrderByUserIdAsc(user.getId(), PageRequest.of(pageNum, pageSize));
+        return ticketRepo.findAllByUserId(user.getId(), PageRequest.of(pageNum, pageSize));
     }
 
     public boolean deleteTicket(long ticketId) {

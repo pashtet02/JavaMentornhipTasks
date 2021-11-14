@@ -1,6 +1,5 @@
 package com.cpd.springcore.service;
 
-
 import com.cpd.springcore.model.User;
 import com.cpd.springcore.repos.UserRepo;
 import lombok.AllArgsConstructor;

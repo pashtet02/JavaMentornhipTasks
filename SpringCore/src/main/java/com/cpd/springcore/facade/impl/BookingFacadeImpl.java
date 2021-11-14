@@ -36,14 +36,16 @@ public class BookingFacadeImpl implements BookingFacade {
     @PostConstruct
     @Loggable
     public void loadTicketsFromXml() {
-        String xmlContent = null;
-        try {
-            xmlContent = new String(Files.readAllBytes(Paths.get(datafilePath)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (datafilePath != null && !datafilePath.isBlank()) {
+            String xmlContent = null;
+            try {
+                xmlContent = new String(Files.readAllBytes(Paths.get(datafilePath)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            TicketList tickets = (TicketList) xStream.fromXML(xmlContent);
+            tickets.getTickets().forEach(t -> bookTicket(t.getUserId(), t.getEventId(), t.getPlace(), t.getCategory()));
         }
-        TicketList tickets = (TicketList) xStream.fromXML(xmlContent);
-        tickets.getTickets().forEach(t -> bookTicket(t.getUserId(), t.getEventId(), t.getPlace(), t.getCategory()));
     }
 
     @Override

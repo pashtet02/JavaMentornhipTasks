@@ -8,7 +8,6 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import org.springframework.context.annotation.*;
 
-
 @Configuration
 @PropertySource("classpath:application.properties")
 @ComponentScan("com.cpd.springcore")

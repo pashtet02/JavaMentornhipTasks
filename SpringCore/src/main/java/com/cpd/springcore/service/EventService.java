@@ -38,5 +38,4 @@ public class EventService {
         eventRepo.deleteById(eventId);
         return true;
     }
-
 }
