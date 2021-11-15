@@ -9,7 +9,6 @@ import com.example.service.EventService;
 import com.example.service.TicketService;
 import com.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,6 @@ import java.util.Calendar;
 @Service
 @Slf4j
 public class BookingFacadeImpl implements BookingFacade {
-
-    @Value("${preload.path}")
-    private String preloadPath;
 
     private final EventService eventService;
     private final UserService userService;
