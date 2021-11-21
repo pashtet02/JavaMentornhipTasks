@@ -5,51 +5,62 @@ import com.example.facade.BookingFacade;
 import com.example.model.Event;
 import com.example.model.Ticket;
 import com.example.model.User;
+import com.example.model.UserAccount;
+import com.example.service.AccountService;
 import com.example.service.EventService;
 import com.example.service.TicketService;
 import com.example.service.UserService;
+import io.micrometer.core.lang.Nullable;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.Calendar;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BookingFacadeImpl implements BookingFacade {
-
-    @Value("${preload.path}")
-    private String preloadPath;
 
     private final EventService eventService;
     private final UserService userService;
     private final TicketService ticketService;
-
-    public BookingFacadeImpl(EventService eventService, UserService userService, TicketService ticketService) {
-        this.eventService = eventService;
-        this.userService = userService;
-        this.ticketService = ticketService;
-    }
+    private final AccountService accountService;
 
     @Override
+    @Cacheable("bookedTickets")
+    @CacheEvict
     public Page<Ticket> getBookedTickets(User user, Pageable pageable) {
         return ticketService.getTicketsByUserId(user.getId(), pageable);
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public Ticket buyTicket(String username, long eventId) {
         User user = userService.getUserByUsername(username);
         Event event = eventService.getEvent(eventId).orElseThrow(EventNotFoundException::new);
 
-        Ticket ticket = new Ticket();
-        ticket.setEvent(event);
-        ticket.setUser(user);
-        ticket.setCreationDate(new Date(Calendar.getInstance().getTimeInMillis()));
+        UserAccount account = user.getAccount();
+        if (account.getMoney() > event.getPrice()) {
+            account.setMoney(account.getMoney() - event.getPrice());
 
-        return ticketService.saveTicket(ticket);
+            accountService.updateAccount(account);
+
+            Ticket ticket = new Ticket();
+            ticket.setEvent(event);
+            ticket.setUser(user);
+            ticket.setCreationDate(new Date(Calendar.getInstance().getTimeInMillis()));
+
+            return ticketService.saveTicket(ticket);
+        } else throw new RuntimeException("Not enough money!");
     }
 
     @Override
@@ -61,26 +72,17 @@ public class BookingFacadeImpl implements BookingFacade {
         return ticket;
     }
 
-    /*@SneakyThrows
     @Override
-    public List<Ticket> preloadTickets() {
+    @Transactional
+    @Nullable
+    public UserAccount refillMoney(User user, Double deposit) {
+        UserAccount account;
+        if (user.getAccount() != null){
+            account = user.getAccount();
+            account.setMoney(account.getMoney() + deposit);
+            account = accountService.updateAccount(account);
+        } else throw new RuntimeException("User account not found!");
+        return account;
+    }
 
-        FileReader reader = new FileReader(preloadPath);
-
-        XStream xstream = new XStream();
-        xstream.processAnnotations(TicketXml.class);
-        xstream.addPermission(AnyTypePermission.ANY);
-        TicketXml data = (TicketXml) xstream.fromXML(reader);
-        EventMessageType event = unmarshaller.unmarshal(new StreamResource(file), EventMessagType.class).getValue();
-        System.out.println(data);
-
-        *//*ickets tickets;
-        try (FileInputStream is = new FileInputStream(preloadPath)) {
-            tickets = (Tickets) new XStreamMarshaller().unmarshal(new StreamSource(is));
-            System.out.println("TICKETS: " + tickets);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*//*
-        return new ArrayList<>();
-    }*/
 }

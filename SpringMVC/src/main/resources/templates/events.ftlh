@@ -28,4 +28,14 @@
     <#else>
         No events
     </#list>
+
+    <hr>
+    <div>
+        <form method="post" action="/user/deposit">
+            <input type="number" name="deposit" placeholder="Event amount of money">
+            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+            <button type="submit">Donate</button>
+        </form>
+    </div>
+
 </@c.page>

@@ -5,23 +5,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Ticket {
+public class UserAccount {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @OneToOne(mappedBy = "account")
     private User user;
 
-    @ManyToOne
-    private Event event;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+    private Double money;
 }
