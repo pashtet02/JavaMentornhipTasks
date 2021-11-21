@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.aspect.Loggable;
 import com.example.ecxeption.UserAlreadyExistsException;
 import com.example.model.UserAccount;
 import com.example.model.enums.Role;
@@ -17,6 +18,7 @@ public class UserService {
     private final UserRepo userRepo;
     private final AccountService accountService;
 
+    @Loggable
     public User addUser(User user, double deposit) {
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
@@ -34,6 +36,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
+    @Loggable
     public User getUserByUsername(String username){
         return userRepo.findByUsername(username);
     }

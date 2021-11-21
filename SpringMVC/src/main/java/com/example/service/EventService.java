@@ -28,6 +28,7 @@ public class EventService {
         return eventRepo.save(event);
     }
 
+    @Cacheable( value = "events", key = "'EventCache' +#eventId")
     public Optional<Event> getEvent(long eventId){
         return eventRepo.findById(eventId);
     }

@@ -1,5 +1,6 @@
 package com.example.facade.impl;
 
+import com.example.aspect.Loggable;
 import com.example.ecxeption.EventNotFoundException;
 import com.example.facade.BookingFacade;
 import com.example.model.Event;
@@ -10,10 +11,8 @@ import com.example.service.AccountService;
 import com.example.service.EventService;
 import com.example.service.TicketService;
 import com.example.service.UserService;
-import io.micrometer.core.lang.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,13 +35,14 @@ public class BookingFacadeImpl implements BookingFacade {
     private final AccountService accountService;
 
     @Override
-    @Cacheable("bookedTickets")
-    @CacheEvict
+    @Cacheable(value = "bookedTickets", key = "'UsersBookedTickets' + #user.getId()")
+    @Loggable
     public Page<Ticket> getBookedTickets(User user, Pageable pageable) {
         return ticketService.getTicketsByUserId(user.getId(), pageable);
     }
 
     @Override
+    @Loggable
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     public Ticket buyTicket(String username, long eventId) {
         User user = userService.getUserByUsername(username);
@@ -64,6 +64,7 @@ public class BookingFacadeImpl implements BookingFacade {
     }
 
     @Override
+    @Loggable
     public Ticket getDetailedTicketInfo(long eventId) {
         Ticket ticket = new Ticket();
         Event event = eventService.getEvent(eventId)
@@ -74,7 +75,7 @@ public class BookingFacadeImpl implements BookingFacade {
 
     @Override
     @Transactional
-    @Nullable
+    @Loggable
     public UserAccount refillMoney(User user, Double deposit) {
         UserAccount account;
         if (user.getAccount() != null){

@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.model.User;
+import com.example.aspect.Loggable;
 import com.example.model.UserAccount;
 import com.example.repos.AccountRepo;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ public class AccountService {
 
     private final AccountRepo accountRepo;
 
+    @Loggable
     public UserAccount createUserAccount(double deposit){
         UserAccount account = new UserAccount();
         account.setMoney(deposit);
