@@ -1,0 +1,1 @@
+insert into role (id, name) values (99, 'ROLE_SUPER_TURBO_ADMIN');
