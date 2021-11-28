@@ -14,7 +14,7 @@ CREATE TABLE `event`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
-
+-- some random line to invoke jenkins
 CREATE TABLE `event_ticket_list`
 (
     `event_id`       bigint NOT NULL,
