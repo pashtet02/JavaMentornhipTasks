@@ -21,10 +21,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 64)
+    @Column(unique = false, nullable = false, length = 64)
     private String username;
 
-    @Column(unique = true, nullable = false, length = 64)
+    @Column(unique = false, nullable = false, length = 64)
     private String email;
 
     private String password;

@@ -38,9 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authFilter.setFilterProcessesUrl("/api/login");
 
         http.csrf().disable();
+        http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
 
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "/actuator/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "/actuator/**", "/h2-console/**").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/user/**").authenticated();
         http.authorizeRequests().antMatchers(GET, "/api/users/**").authenticated();
         http.authorizeRequests().anyRequest().authenticated();
