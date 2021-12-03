@@ -1,4 +1,4 @@
-package com.example.springboot.security;
+package com.example.springboot.config;
 
 import com.example.springboot.filter.CustomAuthenticationFilter;
 import com.example.springboot.filter.CustomAuthorisationFilter;
@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -38,12 +37,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authFilter.setFilterProcessesUrl("/api/login");
 
         http.csrf().disable();
+        //to enable h2 console
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
 
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**", "/actuator/**", "/h2-console/**").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/api/user/**").authenticated();
-        http.authorizeRequests().antMatchers(GET, "/api/users/**").authenticated();
+        http.authorizeRequests()
+                .antMatchers("/api/login/**", "/api/token/refresh/**", "/actuator/**", "/h2-console/**")
+                .permitAll();
+
         http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(authFilter);

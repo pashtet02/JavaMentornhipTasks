@@ -5,6 +5,7 @@ import com.example.springboot.domain.User;
 import com.example.springboot.repos.RoleRepo;
 import com.example.springboot.repos.UserRepo;
 import com.example.springboot.service.UserService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User saveUser(User user) {
+    public User saveUser(@NonNull User user) {
         user.setPassword(
                 passwordEncoder.encode(user.getPassword()));
         log.info("Save user: {}", user);
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Role saveRole(Role role) {
+    public Role saveRole(@NonNull Role role) {
         log.info("Save role: {}", role);
         return roleRepo.save(role);
     }
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = userRepo.findByUsername(username);
         Role role = roleRepo.findByName(roleName);
         user.getRoles().add(role);
+        userRepo.save(user);
         log.info("Added user role {} for user: {}", roleName, username);
     }
 

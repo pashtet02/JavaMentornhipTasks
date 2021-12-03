@@ -1,13 +1,16 @@
 package com.example.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAccount {
@@ -19,5 +22,23 @@ public class UserAccount {
     @OneToOne(mappedBy = "account")
     private User user;
 
+    //Add tests with verify + lambda argThat
+    //по транзаціях з параметром rollback noRollbackFor
+    //
+
     private Double money;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        UserAccount that = (UserAccount) o;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 76039858;
+    }
 }

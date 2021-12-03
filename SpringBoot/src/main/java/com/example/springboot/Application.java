@@ -22,6 +22,7 @@ public class Application {
     }
 
     @Bean
+    @Profile("!test")
     public CommandLineRunner run(UserService userService) {
         return args -> {
             userService.saveRole(new Role(null, "ROLE_USER"));
