@@ -12,7 +12,7 @@ pipeline {
               java -version
               mvn -version
               cd SpringMVC
-              ${params.Builder} -version
+              sh "${params.Builder} -version"
               mvn clean compile
               ls
               '''
