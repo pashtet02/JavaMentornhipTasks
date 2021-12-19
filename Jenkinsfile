@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+      string(name: 'Builder', defaultValue: 'mvn', description: 'How should I build the project?')
+  }
   stages {
       stage('Build') {
         steps {
@@ -9,6 +12,7 @@ pipeline {
               java -version
               mvn -version
               cd SpringMVC
+              ${params.Builder} -version
               mvn clean compile
               ls
               '''
