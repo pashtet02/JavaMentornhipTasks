@@ -7,6 +7,7 @@ pipeline {
           sh '''
               echo "Multiline script"
               java -version
+              mvn -version
               cd SpringMVC
               mvn clean compile
               ls
