@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.model.Event;
 import com.example.repos.EventRepo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +17,7 @@ public class EventService {
         this.eventRepo = eventRepo;
     }
 
+    @Cacheable("events")
     public Iterable<Event> getEvents() {
         log.info("Get all events");
         return eventRepo.findAll();
@@ -26,6 +28,7 @@ public class EventService {
         return eventRepo.save(event);
     }
 
+    @Cacheable( value = "events", key = "'EventCache' +#eventId")
     public Optional<Event> getEvent(long eventId){
         return eventRepo.findById(eventId);
     }

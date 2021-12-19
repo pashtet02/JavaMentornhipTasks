@@ -1,0 +1,29 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/spring_boot
+    username: root
+    password: root
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  build:
+    artifact: @project.artifactId@
+    java-version: @java.version@
+  app:
+    name: 'BOOT-SPRING'
+    description: 'This is custom info endpoint'
+    author: 'Pavlo Khodachok'

@@ -1,11 +1,10 @@
 package com.example.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,41 +12,32 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    public Event(String name, String details, double price, String location) {
-        this.name = name;
-        this.details = details;
-        this.price = price;
-        this.location = location;
-    }
-
-    public Event() {
-    }
-
+    @Column(unique = true, length = 254, nullable = false)
     private String name;
     private String details;
     private String location;
+
     private double price;
+
+    @Temporal(value = TemporalType.DATE)
+    private Date eventDate;
+
+    @Temporal(value = TemporalType.TIME)
+    private Date eventTime;
+
+
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    public Date creationDtTm;
 
     @OneToMany
     @ToString.Exclude
     private List<Ticket> ticketList;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Event event = (Event) o;
-
-        return Objects.equals(id, event.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 1491041522;
-    }
 }

@@ -1,0 +1,39 @@
+spring:
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  flyway:
+    enabled: false
+
+  datasource:
+    url: jdbc:h2:mem:spring_boot
+    username: sa
+    password: sa
+    driverClassName: org.h2.Driver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+      group:
+        custom:
+          show-components: always
+          show-details: always
+          include: diskSpace,ping
+info:
+  build:
+    artifact: @project.artifactId@
+    java-version: @java.version@
+  app:
+    name: 'BOOT-SPRING'
+    description: 'This is custom info endpoint'
+    author: 'Pavlo Khodachok'

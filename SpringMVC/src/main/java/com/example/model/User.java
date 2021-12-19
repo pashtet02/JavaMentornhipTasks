@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "usr")
+@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,6 +31,10 @@ public class User {
 
     @OneToMany
     private List<Ticket> tickets;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private UserAccount account;
 
     @Override
     public String toString() {
