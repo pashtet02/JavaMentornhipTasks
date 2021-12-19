@@ -6,6 +6,7 @@ pipeline {
   stages {
       stage('Build') {
         steps {
+          sh 'echo "${params.CHOICE}"'
           sh 'echo "Hello World"'
           sh '''
               echo "Multiline script"
@@ -15,7 +16,6 @@ pipeline {
               mvn clean compile
               ls
               '''
-          echo "Choice: ${params.CHOICE}"
         }
     }
   }
