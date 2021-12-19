@@ -24,8 +24,4 @@ public class EventControllerUnitTest {
     @InjectMocks
     private EventController eventController;
 
-    /*@Before
-    public void setUp(){
-
-    }*/
 }
