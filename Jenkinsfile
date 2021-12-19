@@ -10,10 +10,6 @@ pipeline {
               ls
               '''
         }
-        stage('Test') {
-          steps {
-            sh 'echo "Test World"'
-            }
     }
   }
 }
