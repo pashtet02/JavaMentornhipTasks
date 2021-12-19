@@ -12,10 +12,10 @@ pipeline {
               java -version
               mvn -version
               cd SpringMVC
-              echo "Choice: ${params.CHOICE}"
               mvn clean compile
               ls
               '''
+          echo "Choice: ${params.CHOICE}"
         }
     }
   }
