@@ -6,7 +6,7 @@ pipeline {
   stages {
       stage('Build') {
         steps {
-          sh 'echo ${params.CHOICE}'
+          sh "\"${params.CHOICE}\" -version"
           sh 'echo "Hello World"'
           sh '''
               echo "Multiline script"
