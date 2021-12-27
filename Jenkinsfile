@@ -16,7 +16,7 @@ pipeline {
         stage ('Build') {
             steps {
                 sh 'ls -la'
-                sh 'cd SpringMvc'
+                sh 'cd SpringMVC'
                 sh 'mvn -Dmaven.test.failure.ignore=true package'
             }
             post {
