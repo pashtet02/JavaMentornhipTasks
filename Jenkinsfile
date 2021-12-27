@@ -21,7 +21,7 @@ pipeline {
                 sh '''ls -la
                 cd JavaMentornshipTasks/SpringMVC
                 ls -la
-                mvn clean compile'''
+                mvn -Dmaven.test.failure.ignore=true install'''
             }
             post {
                 success {
