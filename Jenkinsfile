@@ -15,11 +15,11 @@ pipeline {
 
         stage ('Build') {
             steps {
-            ls -la
-                rm -d -f JavaMentornshipTasks
+                sh 'ls -la'
+                sh 'rm -d -f JavaMentornshipTasks'
                 sh 'git clone https://github.com/pashtet02/JavaMentornshipTasks.git'
-                cd JavaMentornshipTasks
-                cd SpringMvc
+                sh 'cd JavaMentornshipTasks'
+                sh 'cd SpringMvc'
                 sh 'mvn -Dmaven.test.failure.ignore=true package'
             }
             post {
