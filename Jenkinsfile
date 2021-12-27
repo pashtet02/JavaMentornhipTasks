@@ -15,6 +15,7 @@ pipeline {
 
         stage ('Build') {
             steps {
+            ls -la
                 rm -d JavaMentornshipTasks
                 sh 'git clone https://github.com/pashtet02/JavaMentornshipTasks.git'
                 cd JavaMentornshipTasks
