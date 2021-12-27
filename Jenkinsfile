@@ -16,6 +16,7 @@ pipeline {
         stage ('Build') {
             steps {
                 sh 'git clone https://github.com/pashtet02/JavaMentornshipTasks.git'
+                cd JavaMentornshipTasks
                 cd SpringMvc
                 sh 'mvn -Dmaven.test.failure.ignore=true package'
             }
