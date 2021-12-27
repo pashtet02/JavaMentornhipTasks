@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh 'ls -la'
                 sh 'cd SpringMVC'
-                sh 'mvn -Dmaven.test.failure.ignore=true package'
+                sh 'mvn clean compile'
             }
             post {
                 success {
