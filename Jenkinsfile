@@ -19,7 +19,8 @@ pipeline {
         stage ('Build') {
             steps {
                 sh 'ls -la'
-                sh 'cd SpringMVC'
+                sh 'cd JavaMentornshipTasks/SpringMVC'
+                sh 'ls -la'
                 sh 'mvn clean compile'
             }
             post {
