@@ -15,6 +15,7 @@ pipeline {
 
         stage ('Build') {
             steps {
+                rm -d JavaMentornshipTasks
                 sh 'git clone https://github.com/pashtet02/JavaMentornshipTasks.git'
                 cd JavaMentornshipTasks
                 cd SpringMvc
