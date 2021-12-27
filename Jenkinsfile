@@ -18,10 +18,10 @@ pipeline {
 
         stage ('Build') {
             steps {
-                sh 'ls -la'
-                sh 'cd JavaMentornshipTasks/SpringMVC'
-                sh 'ls -la'
-                sh 'mvn clean compile'
+                sh '''ls -la
+                cd JavaMentornshipTasks/SpringMVC
+                ls -la
+                mvn clean compile'''
             }
             post {
                 success {
