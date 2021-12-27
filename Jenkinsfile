@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+          choice(name: 'CHOICE', choices: ['mvn', 'gradle'], description: 'Pick something')
+      }
     tools {
         maven 'Maven'
     }
